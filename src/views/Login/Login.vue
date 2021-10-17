@@ -5,7 +5,7 @@
         头像区域
       -->
       <div class="login-avatar">
-        <img src="../../assets/logo.png" alt="logo" />
+        <img src="../../assets/img/logo.png" alt="logo" />
       </div>
       <!--
         登录表单区域
@@ -15,7 +15,11 @@
           <el-input prefix-icon="iconfont icon-user" v-model="loginForm.username"></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input type="password" prefix-icon="iconfont icon-3702mima" v-model="loginForm.password"></el-input>
+          <el-input
+            type="password"
+            prefix-icon="iconfont icon-3702mima"
+            v-model="loginForm.password"
+          ></el-input>
         </el-form-item>
         <el-form-item class="btns">
           <el-button type="primary" @click="login">登录</el-button>
@@ -27,7 +31,7 @@
 </template>
 
 <script>
-import { postLoginInfoAPI } from '@/api/login/loginAPI.js'
+import { postLoginInfoAPI } from '@/api/loginAPI.js'
 
 export default {
   name: 'Login',
