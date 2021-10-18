@@ -2,9 +2,9 @@
  * 权限管理模块 API
  * */
 
-// 左侧菜单权限
-import request from '@/utils/request.js'
+import request from '@/utils/request.js';
 
+// 获取左侧菜单权限
 export const getMenusListAPI = () => {
-  return request.get('menus')
-}
+  return request.get('menus');
+};

@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// import pathArr from '@/data/pathArr.json' // 需要判断的 hsch 地址
+// import pathArr from '@/data/pathArr.json' // 需要判断的 hsch 地址 /** 已废弃 */
 
-// 登录页
+// 登录模块
 import Login from '@/views/Login/Login.vue';
-// 首页
+// 首页模块
 import Home from '@/views/Home/Home.vue';
 import Welcome from '@/views/Home/Welcome.vue';
+// 用户管理模块
+import Users from '@/views/User/Users.vue';
 
 Vue.use(VueRouter);
 
@@ -18,7 +20,10 @@ const routes = [
     path: '/home',
     component: Home,
     redirect: '/welcome',
-    children: [{ path: '/welcome', component: Welcome }]
+    children: [
+      { path: '/welcome', component: Welcome },
+      { path: '/users', component: Users }
+    ]
   }
 ];
 
@@ -26,7 +31,7 @@ const router = new VueRouter({
   routes
 });
 
-// 全局前置守卫
+// 全局前置守卫  /** 已废弃 */
 // router.beforeEach((to, from, next) => {
 //   if (pathArr.indexOf(to.path) !== -1) {
 //     const token = window.sessionStorage.getItem('token')
@@ -35,6 +40,8 @@ const router = new VueRouter({
 //     next()
 //   }
 // })
+
+// 全局前置守卫
 router.beforeEach((to, from, next) => {
   if (to.path === '/login') return next();
 

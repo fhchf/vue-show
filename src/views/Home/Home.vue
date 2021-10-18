@@ -17,22 +17,27 @@
         侧边栏区域
       -->
       <el-aside :width="isCollapse ? '64px' : '200px'">
-        <el-menu unique-opened :collapse="isCollapse" :collapse-transition="false" router>
+        <el-menu
+          unique-opened
+          :collapse="isCollapse"
+          :collapse-transition="false"
+          router
+          :default-active="activePath"
+        >
           <!-- 是否折叠菜单 -->
-          <div class="toggle-button" @click="toggleMenu">
-            <i :class="isCollapse ? '' : 'el-icon-more'"></i>
-          </div>
+          <div class="toggle-button" @click="toggleMenu"></div>
           <!-- 一级菜单 -->
-          <el-submenu :index="item.id + ''" v-for="item in menusList.data" :key="item.id">
+          <el-submenu v-for="item in menusList.data" :index="item.id + ''" :key="item.id">
             <template slot="title">
               <i :class="iconsObj[item.id]"></i>
               <span>{{ item.authName }}</span>
             </template>
             <!-- 二级菜单 -->
             <el-menu-item
-              :index="'/' + subitem.path"
               v-for="subitem in item.children"
+              :index="'/' + subitem.path"
               :key="subitem.id"
+              @click="saveNavState('/' + subitem.path)"
               ><template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>{{ subitem.authName }}</span>
@@ -67,7 +72,10 @@ export default {
         '102': 'iconfont icon-danju',
         '145': 'iconfont icon-baobiao'
       },
-      isCollapse: false
+      // 是否折叠菜单
+      isCollapse: false,
+      // 侧栏激活状态
+      activePath: ''
     };
   },
   methods: {
@@ -86,10 +94,16 @@ export default {
     // 是否折叠收起菜单
     toggleMenu() {
       this.isCollapse = !this.isCollapse;
+    },
+    // 保存菜单栏激活状态
+    saveNavState(activePath) {
+      window.sessionStorage.setItem('activePath', activePath);
+      this.activePath = activePath;
     }
   },
   created() {
     this.getMenusList();
+    this.activePath = window.sessionStorage.getItem('activePath');
   }
 };
 </script>
@@ -162,7 +176,7 @@ export default {
 // Menus 激活状态中的样式
 .el-aside .el-menu-item.is-active {
   color: #fec28e;
-  background-color: #fbfbfb;
+  background-color: transparent;
 }
 
 .iconfont {
@@ -176,5 +190,6 @@ export default {
   height: 20px;
   background-color: #eee;
   color: #303133;
+  cursor: pointer;
 }
 </style>
