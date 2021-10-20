@@ -47,3 +47,8 @@ export const reviseUserInfoAPI = ({ id, email, mobile }) => {
 export const removeSingleUserAPI = id => {
   return request.delete(`users/${id}`);
 };
+
+// 分配用户角色
+export const allotRoleByIdAPI = (id, rid) => {
+  return request.put(`users/${id}/role`, { rid });
+};

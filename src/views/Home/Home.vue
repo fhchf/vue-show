@@ -6,7 +6,7 @@
     <el-header>
       <div>
         <img src="../../assets/img/header_logo.png" title="header_logo" />
-        <span>與簌小卖部后台管理系统</span>
+        <span>與簌小卖铺后台管理系统</span>
       </div>
       <div>
         <el-button type="info" size="mini" @click="logout">退出登录</el-button>

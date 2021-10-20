@@ -1,12 +1,12 @@
 <template>
   <div class="users-container">
-    <!-- 面包屑 -->
+    <!-- 面包屑导航 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/welcome' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>用户管理</el-breadcrumb-item>
       <el-breadcrumb-item>用户列表</el-breadcrumb-item>
     </el-breadcrumb>
-    <!-- 卡片 -->
+    <!-- 卡片视图 -->
     <el-card>
       <!-- 搜索与添加区域 -->
       <el-row :gutter="20">
@@ -48,16 +48,19 @@
         <!-- 操作 -->
         <el-table-column label="操作" width="180px">
           <template slot-scope="scope">
+            <!-- 修改 -->
             <el-button
               icon="el-icon-edit"
               size="mini"
               @click="showEditDialog(scope.row.id)"
             ></el-button>
+            <!-- 删除 -->
             <el-button
               icon="el-icon-delete"
               size="mini"
               @click="openMessageBox(scope.row.id)"
             ></el-button>
+            <!-- 分配角色 -->
             <el-tooltip
               class="item"
               effect="dark"
@@ -65,7 +68,7 @@
               placement="top"
               :enterable="false"
             >
-              <el-button icon="el-icon-setting" size="mini"></el-button>
+              <el-button icon="el-icon-setting" size="mini" @click="setRole(scope.row)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -83,7 +86,7 @@
       >
       </el-pagination>
 
-      <!-- 用户添加区域 -- 对话框 -->
+      <!-- 添加用户区域 -- 对话框 -->
       <el-dialog
         title="添加用户"
         width="30%"
@@ -120,11 +123,12 @@
         </span>
       </el-dialog>
 
-      <!-- 用户编辑区域 -- 对话框 -->
+      <!-- 编辑用户区域 -- 对话框 -->
       <el-dialog
-        title="用户编辑"
+        title="编辑用户"
         width="30%"
         :visible.sync="editEialogVisible"
+        :close-on-click-modal="false"
         @close="editDialogClosed"
       >
         <!-- 内容主体 -->
@@ -150,6 +154,40 @@
           <el-button size="medium" type="primary" @click="editUser">确 定</el-button>
         </span>
       </el-dialog>
+
+      <!-- 分配角色区域 -- 对话框 -->
+      <el-dialog
+        title="分配角色"
+        width="30%"
+        :visible.sync="setRoleDialogVisible"
+        :close-on-click-modal="false"
+        @close="setRoleDialogClosed"
+      >
+        <div>
+          <p>
+            当前的用户：<span class="userinfo-layout">{{ allotRole_userInfo.username }}</span>
+          </p>
+          <p>
+            当前的角色：<span class="userinfo-layout">{{ allotRole_userInfo.role_name }}</span>
+          </p>
+          <p>
+            分配新角色：
+            <el-select v-model="selectedRoleId" placeholder="请选择">
+              <el-option
+                v-for="item in rolesList"
+                :key="item.id"
+                :label="item.roleName"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </p>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button size="medium" @click="setRoleDialogVisible = false">取 消</el-button>
+          <el-button size="medium" type="primary" @click="savaRoleInfo">确 定</el-button>
+        </span>
+      </el-dialog>
     </el-card>
   </div>
 </template>
@@ -161,8 +199,11 @@ import {
   addUserInfoAPI,
   getSingleUserInfoAPI,
   reviseUserInfoAPI,
-  removeSingleUserAPI
+  removeSingleUserAPI,
+  allotRoleByIdAPI
 } from '@/api/usersAPI.js';
+
+import { getRolesListAPI } from '@/api/rightsAPI.js';
 
 export default {
   name: 'Users',
@@ -236,7 +277,15 @@ export default {
             trigger: 'blur'
           }
         ]
-      }
+      },
+      // 控制分配角色对话框的显示与隐藏
+      setRoleDialogVisible: false,
+      // 需要被分配角色的用户信息
+      allotRole_userInfo: {},
+      // 所有角色的数据列表
+      rolesList: [],
+      // 所选角色 id
+      selectedRoleId: ''
     };
   },
   methods: {
@@ -338,6 +387,31 @@ export default {
             message: '已取消删除'
           });
         });
+    },
+    // 获取角色列表
+    async setRole(userInfo) {
+      this.allotRole_userInfo = userInfo;
+      const { data: res } = await getRolesListAPI();
+      if (res.meta.status !== 200) return this.$message.error('获取角色列表失败！');
+      this.rolesList = res.data;
+
+      this.setRoleDialogVisible = true;
+    },
+    // 预验证并分配角色
+    async savaRoleInfo() {
+      if (!this.selectedRoleId) return this.$message.error('请选择需要分配的角色！');
+
+      const { data: res } = await allotRoleByIdAPI(this.allotRole_userInfo.id, this.selectedRoleId);
+      if (res.meta.status !== 200) return this.$message.error('设置失败！');
+
+      this.setRoleDialogVisible = false;
+      this.getUserList();
+      this.$message.success('设置成功！');
+    },
+    // 监听 分配角色对话框 的关闭事件
+    setRoleDialogClosed() {
+      this.selectedRoleId = '';
+      this.allotRole_userInfo = {};
     }
   },
   created() {
@@ -347,12 +421,9 @@ export default {
 </script>
 
 <style lang="less" scope>
-// switch 开关的样式
-.el-table .el-switch__core {
-  background-color: transparent;
-}
-.el-table .el-switch__core:after {
-  border: 1px solid #dcdfe6;
-  box-sizing: border-box;
+// 分配角色用户信息布局
+.userinfo-layout {
+  padding: 5px;
+  color: #9b9a9a;
 }
 </style>

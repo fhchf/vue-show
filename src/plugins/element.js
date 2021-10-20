@@ -23,7 +23,11 @@ import {
   Tooltip,
   Pagination,
   Dialog,
-  MessageBox
+  MessageBox,
+  Tag,
+  Tree,
+  Select,
+  Option
 } from 'element-ui';
 
 // ---------- 组件 ----------
@@ -73,7 +77,17 @@ Vue.use(Pagination);
 // 对话框
 Vue.use(Dialog);
 
-// ---------- 全局生效 ----------
+// 标签
+Vue.use(Tag);
+
+// 树形控件
+Vue.use(Tree);
+
+// 选择器
+Vue.use(Select);
+Vue.use(Option);
+
+// ---------- 通过原型进行挂载 ----------
 // 消息提示
 Vue.prototype.$message = Message;
 

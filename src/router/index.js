@@ -9,6 +9,9 @@ import Home from '@/views/Home/Home.vue';
 import Welcome from '@/views/Home/Welcome.vue';
 // 用户管理模块
 import Users from '@/views/User/Users.vue';
+// 权限管理模块
+import Rights from '@/views/Rights/Rights.vue';
+import Roles from '@/views/Rights/Roles.vue';
 
 Vue.use(VueRouter);
 
@@ -22,7 +25,9 @@ const routes = [
     redirect: '/welcome',
     children: [
       { path: '/welcome', component: Welcome },
-      { path: '/users', component: Users }
+      { path: '/users', component: Users },
+      { path: '/rights', component: Rights },
+      { path: '/roles', component: Roles }
     ]
   }
 ];
