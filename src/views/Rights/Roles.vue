@@ -280,11 +280,11 @@ export default {
     },
     // 显示 编辑角色 对话框并根据 id 获取数据
     async showEditDialog(id) {
-      this.editEialogVisible = true;
       const { data: res } = await getRolesInfoAPI(id);
       if (res.meta.status !== 200) return this.$message.error('查询角色信息失败！');
 
       this.editForm = res.data;
+      this.editEialogVisible = true;
     },
     // 预验证并修改角色
     editRole() {
@@ -400,7 +400,7 @@ export default {
 }
 // 展开列 -- tab 标签样式
 .el-tag {
-  margin: 8px;
+  margin: 8px !important;
 }
 
 // 展开列 -- 权限边框样式

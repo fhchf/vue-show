@@ -28,9 +28,15 @@ body,
   margin-top: 15px;
   font-size: 12px;
 }
+.zk-table {
+  margin-top: 15px;
+  border-radius: 4px;
+}
+.zk-table--firstProp-header-inner {
+  padding-left: 12px !important;
+}
 
 /* 分页 */
-
 .el-pagination {
   margin-top: 15px;
 }
@@ -42,4 +48,33 @@ body,
 .el-table .el-switch__core:after {
   border: 1px solid #dcdfe6;
   box-sizing: border-box;
+}
+
+/* Tag 标签样式 */
+.el-tag {
+  margin: 8px 0;
+  background-color: transparent !important;
+}
+
+/* 解决级联选择器的高度占满全屏的问题 */
+.el-cascader-menu .el-scrollbar__wrap {
+  height: 260px;
+}
+
+/* 步骤条样式 */
+.el-steps {
+  margin: 15px 0;
+}
+.el-step__title {
+  font-size: 13px;
+}
+.el-step__head.is-process,
+.el-step__title.is-process,
+.el-step__head.is-process {
+  color: #7e7e7e;
+}
+.el-step__title.is-success,
+.el-step__head.is-success {
+  color: #72af79;
+  border-color: #72af79;
 }

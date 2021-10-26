@@ -1,15 +1,11 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      <!--
-        头像区域
-      -->
+      <!-- 头像区域 -->
       <div class="login-avatar">
         <img src="../../assets/img/logo.png" alt="logo" />
       </div>
-      <!--
-        登录表单区域
-      -->
+      <!-- 登录表单区域 -->
       <el-form class="login-form" ref="loginFormRef" :model="loginForm" :rules="loginFormRules">
         <el-form-item prop="username">
           <el-input prefix-icon="iconfont icon-user" v-model="loginForm.username"></el-input>
@@ -31,7 +27,7 @@
 </template>
 
 <script>
-import { postLoginInfoAPI } from '@/api/loginAPI.js'
+import { postLoginInfoAPI } from '@/api/loginAPI.js';
 
 export default {
   name: 'Login',
@@ -53,29 +49,29 @@ export default {
           { min: 6, max: 16, message: '长度在 6 到 16 个字符哦', trigger: 'blur' }
         ]
       }
-    }
+    };
   },
   methods: {
     // 重置表单及校验规则
     resetLoginForm() {
-      this.$refs.loginFormRef.resetFields()
+      this.$refs.loginFormRef.resetFields();
     },
     login() {
       // 表单整体 预验证
       this.$refs.loginFormRef.validate(async valid => {
-        if (!valid) return false
+        if (!valid) return false;
 
         // 发起请求并存储用户 token
-        const { data: res } = await postLoginInfoAPI(this.loginForm)
-        if (res.meta.status !== 200) return this.$message.error('登录失败，用户名或密码错误！')
+        const { data: res } = await postLoginInfoAPI(this.loginForm);
+        if (res.meta.status !== 200) return this.$message.error('登录失败，用户名或密码错误！');
 
-        this.$message.success('登录成功！')
-        window.sessionStorage.setItem('token', res.data.token)
-        this.$router.replace('/home')
-      })
+        this.$message.success('登录成功！');
+        window.sessionStorage.setItem('token', res.data.token);
+        this.$router.replace('/home');
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="less" scope>

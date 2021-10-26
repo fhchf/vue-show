@@ -4,14 +4,25 @@ import VueRouter from 'vue-router';
 
 // 登录模块
 import Login from '@/views/Login/Login.vue';
+
 // 首页模块
 import Home from '@/views/Home/Home.vue';
 import Welcome from '@/views/Home/Welcome.vue';
+
 // 用户管理模块
 import Users from '@/views/User/Users.vue';
+
 // 权限管理模块
 import Rights from '@/views/Rights/Rights.vue';
 import Roles from '@/views/Rights/Roles.vue';
+
+// 商品管理模块
+import Goods from '@/views/Goods/Goods.vue';
+import Params from '@/views/Goods/Params.vue';
+import Categories from '@/views/Goods/Categories.vue';
+
+// Error 404
+import Error404 from '@/views/Error/404.vue';
 
 Vue.use(VueRouter);
 
@@ -27,9 +38,15 @@ const routes = [
       { path: '/welcome', component: Welcome },
       { path: '/users', component: Users },
       { path: '/rights', component: Rights },
-      { path: '/roles', component: Roles }
+      { path: '/roles', component: Roles },
+      { path: '/goods', component: Goods },
+      { path: '/goods/add', component: () => import('@/views/Goods/Add.vue') },
+      { path: '/goods/edit', component: () => import('@/views/Goods/Edit.vue') },
+      { path: '/params', component: Params },
+      { path: '/categories', component: Categories }
     ]
-  }
+  },
+  { path: '*', component: Error404 }
 ];
 
 const router = new VueRouter({

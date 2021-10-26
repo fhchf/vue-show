@@ -2,7 +2,7 @@
   <div class="users-container">
     <!-- 面包屑导航 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/welcome' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item><a href="javascript:;" @click="reload">首页</a></el-breadcrumb-item>
       <el-breadcrumb-item>用户管理</el-breadcrumb-item>
       <el-breadcrumb-item>用户列表</el-breadcrumb-item>
     </el-breadcrumb>
@@ -16,6 +16,7 @@
             v-model="queryInfo.query"
             clearable
             @clear="getUserList"
+            @keyup.enter.native="getUserList"
           >
             <el-button slot="append" icon="el-icon-search" @click="getUserList"></el-button>
           </el-input>
@@ -28,11 +29,15 @@
       <!-- 用户列表区域 -->
       <el-table :data="userInfo" stripe border style="width: 100%">
         <el-table-column type="index" label="#"></el-table-column>
-        <el-table-column prop="create_time" label="日期"></el-table-column>
-        <el-table-column prop="username" label="用户名"></el-table-column>
-        <el-table-column prop="email" label="邮箱" width="160px"></el-table-column>
-        <el-table-column prop="mobile" label="手机"></el-table-column>
-        <el-table-column prop="role_name" label="角色"></el-table-column>
+        <el-table-column prop="create_time" label="日期" min-width="150px">
+          <template slot-scope="scope">
+            {{ scope.row.create_time | dateFormat }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="username" label="用户名" min-width="100px"></el-table-column>
+        <el-table-column prop="email" label="邮箱" min-width="160px"></el-table-column>
+        <el-table-column prop="mobile" label="手机" min-width="100px"></el-table-column>
+        <el-table-column prop="role_name" label="角色" min-width="100px"></el-table-column>
         <!-- 状态 -->
         <el-table-column label="状态" width="80px">
           <template slot-scope="scope">
@@ -79,7 +84,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="queryInfo.pagenum"
-        :page-sizes="[1, 2, 5, 10]"
+        :page-sizes="[3, 5, 10, 15]"
         :page-size="queryInfo.pagesize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
@@ -289,6 +294,12 @@ export default {
     };
   },
   methods: {
+    // 解决跳转到首页后，左侧菜单还处于激活状态
+    reload() {
+      window.sessionStorage.removeItem('activePath');
+      this.$router.push('/welcome');
+      window.location.reload();
+    },
     // 获取用户列表
     async getUserList() {
       const { data: res } = await getUsersListAPI(this.queryInfo);

@@ -27,7 +27,20 @@ import {
   Tag,
   Tree,
   Select,
-  Option
+  Option,
+  Cascader,
+  Alert,
+  Tabs,
+  TabPane,
+  Steps,
+  Step,
+  CheckboxGroup,
+  Checkbox,
+  Upload,
+  Descriptions,
+  DescriptionsItem,
+  Image,
+  Empty
 } from 'element-ui';
 
 // ---------- 组件 ----------
@@ -38,6 +51,8 @@ Vue.use(Button);
 Vue.use(Form);
 Vue.use(FormItem);
 Vue.use(Input);
+Vue.use(CheckboxGroup);
+Vue.use(Checkbox);
 
 // 主体布局
 Vue.use(Container);
@@ -83,9 +98,34 @@ Vue.use(Tag);
 // 树形控件
 Vue.use(Tree);
 
-// 选择器
+// 选择器相关
 Vue.use(Select);
 Vue.use(Option);
+Vue.use(Cascader);
+
+// 展示警告
+Vue.use(Alert);
+
+// 标签页相关
+Vue.use(Tabs);
+Vue.use(TabPane);
+
+// 步骤条
+Vue.use(Steps);
+Vue.use(Step);
+
+// 上传文件
+Vue.use(Upload);
+
+// 描述列表
+Vue.use(Descriptions);
+Vue.use(DescriptionsItem);
+
+// 图片
+Vue.use(Image);
+
+// 点位提示
+Vue.use(Empty);
 
 // ---------- 通过原型进行挂载 ----------
 // 消息提示
