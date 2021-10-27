@@ -93,7 +93,9 @@
               list-type="picture"
             >
               <el-button size="small">点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传 jpg/png 文件，且不超过 2M</div>
+              <div slot="tip" class="el-upload__tip">
+                只能上传 jpg/png 文件，且不超过 2M
+              </div>
             </el-upload>
           </el-tab-pane>
           <!-- 商品内容 -->
@@ -243,14 +245,18 @@ export default {
     beforeImgUpload(file) {
       const isTypeCorrect = file.type === 'image/jpeg' || file.type === 'image/png';
       const isLt2M = file.size / 1024 / 1024 < 2;
+      const imgLimit5 = this.addForm.pics.length < 5;
 
       if (!isTypeCorrect) {
-        this.$message.warning('只能上传 jpg/png 文件哦');
+        this.$message.warning('只能上传jpg/png文件哦');
       }
       if (!isLt2M) {
-        this.$message.warning('图片大小不能超过 2M 哦');
+        this.$message.warning('图片大小不能超过2M哦');
       }
-      return isTypeCorrect && isLt2M;
+      if (!imgLimit5) {
+        this.$message.warning('最多只能上传5张哦');
+      }
+      return isTypeCorrect && isLt2M && imgLimit5;
     },
     // 上传成功时的钩子
     handleSuccess(response) {

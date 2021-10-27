@@ -2,27 +2,12 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 // import pathArr from '@/data/pathArr.json' // 需要判断的 hsch 地址 /** 已废弃 */
 
-// 登录模块
+// 登录
 import Login from '@/views/Login/Login.vue';
 
-// 首页模块
+// 首页
 import Home from '@/views/Home/Home.vue';
 import Welcome from '@/views/Home/Welcome.vue';
-
-// 用户管理模块
-import Users from '@/views/User/Users.vue';
-
-// 权限管理模块
-import Rights from '@/views/Rights/Rights.vue';
-import Roles from '@/views/Rights/Roles.vue';
-
-// 商品管理模块
-import Goods from '@/views/Goods/Goods.vue';
-import Params from '@/views/Goods/Params.vue';
-import Categories from '@/views/Goods/Categories.vue';
-
-// Error 404
-import Error404 from '@/views/Error/404.vue';
 
 Vue.use(VueRouter);
 
@@ -35,19 +20,59 @@ const routes = [
     component: Home,
     redirect: '/welcome',
     children: [
-      { path: '/welcome', component: Welcome },
-      { path: '/users', component: Users },
-      { path: '/rights', component: Rights },
-      { path: '/roles', component: Roles },
-      { path: '/goods', component: Goods },
-      { path: '/goods/add', component: () => import('@/views/Goods/Add.vue') },
-      { path: '/goods/edit', component: () => import('@/views/Goods/Edit.vue') },
-      { path: '/params', component: Params },
-      { path: '/categories', component: Categories },
-      { path: '/orders', component: () => import('@/views/Orders/Orders.vue') }
+      {
+        path: '/welcome',
+        component: Welcome
+      },
+      // 用户管理模块
+      {
+        path: '/users',
+        component: () => import('@/views/User/Users.vue')
+      },
+      // 权限管理模块
+      {
+        path: '/rights',
+        component: () => import('@/views/Rights/Rights.vue')
+      },
+      {
+        path: '/roles',
+        component: () => import('@/views/Rights/Roles.vue')
+      },
+      // 商品管理模块
+      {
+        path: '/goods',
+        component: () => import('@/views/Goods/Goods.vue')
+      },
+      {
+        path: '/goods/add',
+        component: () => import('@/views/Goods/Add.vue')
+      },
+      {
+        path: '/goods/edit',
+        component: () => import('@/views/Goods/Edit.vue')
+      },
+      {
+        path: '/params',
+        component: () => import('@/views/Goods/Params.vue')
+      },
+      {
+        path: '/categories',
+        component: () => import('@/views/Goods/Categories.vue')
+      },
+      // 订单管理模块
+      {
+        path: '/orders',
+        component: () => import('@/views/Orders/Orders.vue')
+      },
+      // 数据统计模块
+      {
+        path: '/reports',
+        component: () => import('@/views/Reports/Reports.vue')
+      }
     ]
   },
-  { path: '*', component: Error404 }
+  // Error 404
+  { path: '*', component: () => import('@/views/Error/404.vue') }
 ];
 
 const router = new VueRouter({
