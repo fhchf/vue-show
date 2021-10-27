@@ -43,7 +43,8 @@ const routes = [
       { path: '/goods/add', component: () => import('@/views/Goods/Add.vue') },
       { path: '/goods/edit', component: () => import('@/views/Goods/Edit.vue') },
       { path: '/params', component: Params },
-      { path: '/categories', component: Categories }
+      { path: '/categories', component: Categories },
+      { path: '/orders', component: () => import('@/views/Orders/Orders.vue') }
     ]
   },
   { path: '*', component: Error404 }

@@ -167,7 +167,7 @@ export default {
             trigger: 'blur'
           }
         ],
-        goods_cat: [{ required: true, message: '请选择商品分类', trigger: 'blur' }]
+        goods_cat: [{ required: true, message: '请选择商品分类', trigger: 'change' }]
       },
       // 商品分类列表
       catelist: [],

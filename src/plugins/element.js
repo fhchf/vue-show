@@ -1,4 +1,5 @@
 import Vue from 'vue';
+
 import {
   Button,
   Form,
@@ -40,7 +41,10 @@ import {
   Descriptions,
   DescriptionsItem,
   Image,
-  Empty
+  Empty,
+  Timeline,
+  TimelineItem,
+  Loading
 } from 'element-ui';
 
 // ---------- 组件 ----------
@@ -110,9 +114,11 @@ Vue.use(Alert);
 Vue.use(Tabs);
 Vue.use(TabPane);
 
-// 步骤条
+// 步骤条与时间线
 Vue.use(Steps);
 Vue.use(Step);
+Vue.use(Timeline);
+Vue.use(TimelineItem);
 
 // 上传文件
 Vue.use(Upload);
@@ -127,9 +133,14 @@ Vue.use(Image);
 // 点位提示
 Vue.use(Empty);
 
+Vue.use(Loading.directive);
+
 // ---------- 通过原型进行挂载 ----------
 // 消息提示
 Vue.prototype.$message = Message;
 
 // 弹框
 Vue.prototype.$confirm = MessageBox.confirm;
+
+// 加载
+Vue.prototype.$loading = Loading.service;
