@@ -3,6 +3,10 @@
  */
 import axios from 'axios';
 
+// Slim progress bars for Ajax'y applications
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+
 // 配置信息
 const request = axios.create({
   // 根路径
@@ -12,15 +16,19 @@ const request = axios.create({
 });
 
 // 请求拦截器
-request.interceptors.request.use(
-  config => {
-    // 为请求头对象，添加 token 验证的 Authorization 字段
-    config.headers.Authorization = window.sessionStorage.getItem('token');
-    return config;
-  },
-  err => {
-    console.log(new Error(err));
-  }
-);
+request.interceptors.request.use(config => {
+  // 展示进度条
+  NProgress.start();
+  // 为请求头对象，添加 token 验证的 Authorization 字段
+  config.headers.Authorization = window.sessionStorage.getItem('token');
+  return config;
+});
+
+// 响应拦截器
+request.interceptors.response.use(config => {
+  // 隐藏进度条
+  NProgress.done();
+  return config;
+});
 
 export default request;

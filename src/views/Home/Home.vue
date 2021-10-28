@@ -1,27 +1,34 @@
 <template>
   <el-container class="home-container">
-    <!--
-      Header 区域
-    -->
+    <!-- Header 区域 -->
     <el-header>
       <div>
-        <img src="../../assets/img/header_logo.png" title="header_logo" />
-        <span>與簌小卖铺后台管理系统</span>
+        <a href="javascript:;" @click="reload"
+          ><img src="../../assets/img/header_logo.png" title="Hello world."
+        /></a>
+        <span>與簌小卖部后台管理系统</span>
       </div>
       <div>
-        <el-button type="info" size="mini" @click="logout">退出登录</el-button>
+        <!-- <el-button type="info" size="mini" @click="logout">退出登录</el-button> -->
+        <el-menu mode="horizontal" text-color="#444" active-text-color="#fec28e">
+          <el-submenu index="1">
+            <template slot="title">我的工作台</template>
+            <el-menu-item index="1-1">选项1</el-menu-item>
+            <el-menu-item index="1-2">选项2</el-menu-item>
+            <el-menu-item index="1-3">选项3</el-menu-item>
+          </el-submenu>
+          <el-menu-item index="2" @click="logout">退出登录</el-menu-item>
+        </el-menu>
       </div>
     </el-header>
     <el-container>
-      <!--
-        侧边栏区域
-      -->
+      <!-- Aside 区域 -->
       <el-aside :width="isCollapse ? '64px' : '200px'">
         <el-menu
+          router
           unique-opened
           :collapse="isCollapse"
           :collapse-transition="false"
-          router
           :default-active="activePath"
         >
           <!-- 是否折叠菜单 -->
@@ -46,9 +53,7 @@
           </el-submenu>
         </el-menu>
       </el-aside>
-      <!--
-        Main 区域
-      -->
+      <!-- Main 区域 -->
       <el-main>
         <router-view></router-view>
       </el-main>
@@ -79,6 +84,12 @@ export default {
     };
   },
   methods: {
+    // 解决跳转到首页后，左侧菜单还处于激活状态
+    reload() {
+      window.sessionStorage.removeItem('activePath');
+      this.$router.push('/welcome');
+      window.location.reload();
+    },
     // 退出登录
     logout() {
       window.sessionStorage.clear('token');
@@ -145,6 +156,11 @@ export default {
       font-weight: 400;
     }
   }
+}
+// 水平菜单激活样式
+.el-header .el-menu-item.is-active,
+.el-header .el-submenu__title {
+  color: #444 !important;
 }
 
 /**

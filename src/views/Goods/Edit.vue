@@ -145,7 +145,7 @@
           </el-tab-pane>
           <!-- 修改商品 -->
           <el-tab-pane label="修改商品" name="5">
-            <el-button @click="editGoods">修改商品</el-button>
+            <el-button @click="editGoods" disabled>修改商品</el-button>
             <el-empty description="暂无数据"></el-empty>
           </el-tab-pane>
         </el-tabs>
@@ -374,7 +374,6 @@ export default {
 
         // 发起请求
         const { data: res } = await putGoodsAPI(form);
-        console.log(res);
         if (res.meta.status !== 200) return this.$message.error('修改失败！');
 
         this.$message.success('修改成功！');

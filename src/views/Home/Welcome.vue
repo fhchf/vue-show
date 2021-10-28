@@ -1,7 +1,6 @@
 <template>
-  <div class="welcome-container">
-    <h1>Welcome</h1>
-    <div></div>
+  <div class="container">
+    <div class="text">Hello world.</div>
   </div>
 </template>
 
@@ -11,4 +10,4 @@ export default {
 };
 </script>
 
-<style lang="less" scope></style>
+<style scope></style>
