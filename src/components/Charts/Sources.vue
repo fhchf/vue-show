@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { userSourceStatisticsAPI } from '@/api/reports.js';
+import { userSourceStatisticsAPI } from '@/api/reportsAPI.js';
 import _ from 'lodash';
 
 export default {
