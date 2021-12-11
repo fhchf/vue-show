@@ -2,7 +2,7 @@
   <div class="orders-container">
     <!-- 面包屑导航 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item><a href="javascript:;" @click="reload">首页</a></el-breadcrumb-item>
+      <el-breadcrumb-item><a href="javascript:;" @click="$reload">首页</a></el-breadcrumb-item>
       <el-breadcrumb-item>订单管理</el-breadcrumb-item>
       <el-breadcrumb-item>订单列表</el-breadcrumb-item>
     </el-breadcrumb>
@@ -173,12 +173,6 @@ export default {
     };
   },
   methods: {
-    // 解决跳转到首页后，左侧菜单还处于激活状态
-    reload() {
-      window.sessionStorage.removeItem('activePath');
-      this.$router.push('/welcome');
-      window.location.reload();
-    },
     // 获取订单数据列表
     async getOrdersList() {
       const { data: res } = await getOrdersListAPI(this.queryInfo);

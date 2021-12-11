@@ -5,7 +5,6 @@ import VueRouter from 'vue-router';
 // 登录与首页
 import Login from '@/views/Login/Login.vue';
 import Home from '@/views/Home/Home.vue';
-import Welcome from '@/views/Home/Welcome.vue';
 
 Vue.use(VueRouter);
 
@@ -18,7 +17,7 @@ const routes = [
     component: Home,
     redirect: '/welcome',
     children: [
-      { path: '/welcome', component: Welcome },
+      { path: '/welcome', component: () => import('@/views/Home/Welcome.vue') },
       { path: '/users', component: () => import('@/views/Users/Users.vue') },
       { path: '/rights', component: () => import('@/views/Rights/Rights.vue') },
       { path: '/roles', component: () => import('@/views/Rights/Roles.vue') },
@@ -31,10 +30,15 @@ const routes = [
       { path: '/reports', component: () => import('@/views/Reports/Reports.vue') }
     ]
   },
-  { path: '*', component: () => import('@/views/Error/404.vue') }
+  { path: '/userCenter', component: () => import('@/views/Other/Maint.vue') },
+  { path: '/myNews', component: () => import('@/views/Other/Maint.vue') },
+  { path: '/toDoList', component: () => import('@/views/Other/Maint.vue') },
+  { path: '/dataMonitoringSystem', component: () => import('@/views/Other/Maint.vue') },
+  { path: '*', component: () => import('@/views/Other/Err404.vue') }
 ];
 
 const router = new VueRouter({
+  // mode: 'history', // 历史模式
   routes
 });
 
@@ -55,5 +59,11 @@ router.beforeEach((to, from, next) => {
   const token = window.sessionStorage.getItem('token');
   token ? next() : next('/login');
 });
+
+// 解决路由重复报错 -- 不影响项目正常运行
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err);
+};
 
 export default router;

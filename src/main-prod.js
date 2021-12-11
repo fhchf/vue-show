@@ -12,6 +12,16 @@ import TreeTable from 'vue-table-with-tree-grid';
 // 富文本编辑器
 import VueQuillEditor from 'vue-quill-editor';
 
+// Axios
+import axios from 'axios';
+
+// ECharts 图表
+import * as echarts from 'echarts';
+
+Vue.prototype.$http = axios;
+
+Vue.prototype.$echarts = echarts;
+
 Vue.config.productionTip = false;
 
 Vue.component('tree-table', TreeTable);
@@ -31,6 +41,13 @@ Vue.filter('dateFormat', originVal => {
 
   return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
 });
+
+// 解决跳转到首页后，左侧其余菜单还处于激活状态
+Vue.prototype.$reload = () => {
+  window.sessionStorage.setItem('activePath', '/welcome');
+  router.push('/welcome');
+  window.location.reload();
+};
 
 new Vue({
   router,

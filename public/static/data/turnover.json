@@ -1,0 +1,25 @@
+{
+  "name": "Turnover",
+  "children": [
+    {
+      "name": "2018",
+      "value": 7438
+    },
+    {
+      "name": "2019",
+      "value": 5713
+    },
+    {
+      "name": "2020",
+      "value": 6842
+    },
+    {
+      "name": "2021",
+      "value": 8472
+    },
+    {
+      "name": "2022",
+      "value": 2356
+    }
+  ]
+}

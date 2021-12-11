@@ -44,7 +44,8 @@ import {
   Empty,
   Timeline,
   TimelineItem,
-  Loading
+  Loading,
+  Backtop
 } from 'element-ui';
 
 // ---------- 组件 ----------
@@ -133,7 +134,11 @@ Vue.use(Image);
 // 点位提示
 Vue.use(Empty);
 
+// 加载
 Vue.use(Loading.directive);
+
+// 返回顶部
+Vue.use(Backtop);
 
 // ---------- 通过原型进行挂载 ----------
 // 消息提示

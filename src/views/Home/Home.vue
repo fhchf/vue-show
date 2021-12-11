@@ -1,23 +1,47 @@
 <template>
   <el-container class="home-container">
+    <!-- 返回顶部 -->
+    <el-backtop :bottom="60">
+      <div
+        style="{
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        line-height: 40px;
+        color: #d790be;
+        font-size: 16px;
+      }"
+      >
+        UP
+      </div>
+    </el-backtop>
+
     <!-- Header 区域 -->
     <el-header>
       <div>
-        <a href="javascript:;" @click="reload"
+        <a href="javascript:;" @click="$reload"
           ><img src="../../assets/img/header_logo.png" title="Hello world."
         /></a>
         <span>與簌小卖部后台管理系统</span>
       </div>
       <div>
-        <!-- <el-button type="info" size="mini" @click="logout">退出登录</el-button> -->
-        <el-menu mode="horizontal" text-color="#444" active-text-color="#fec28e">
+        <el-menu
+          mode="horizontal"
+          text-color="#444"
+          active-text-color="#fec28e"
+          show-timeout="0"
+          hide-timeout="0"
+          router
+        >
           <el-submenu index="1">
             <template slot="title">我的工作台</template>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
-            <el-menu-item index="1-3">选项3</el-menu-item>
+            <el-menu-item index="userCenter"><i class="el-icon-user"></i>个人中心</el-menu-item>
+            <el-menu-item index="myNews"
+              ><i class="el-icon-chat-line-square"></i>我的消息</el-menu-item
+            >
+            <el-menu-item index="toDoList"><i class="el-icon-date"></i>待办事项</el-menu-item>
           </el-submenu>
-          <el-menu-item index="2" @click="logout">退出登录</el-menu-item>
+          <el-menu-item @click="logout">退出登录</el-menu-item>
         </el-menu>
       </div>
     </el-header>
@@ -32,8 +56,14 @@
           :default-active="activePath"
         >
           <!-- 是否折叠菜单 -->
-          <div class="toggle-button" @click="toggleMenu"></div>
+          <div class="toggle-button" @click="toggleMenu">
+            {{ openInfo }}
+          </div>
           <!-- 一级菜单 -->
+          <el-menu-item index="/welcome" @click="saveNavState('/welcome')">
+            <i class="el-icon-s-shop"></i>
+            <span slot="title">首页</span>
+          </el-menu-item>
           <el-submenu v-for="item in menusList.data" :index="item.id + ''" :key="item.id">
             <template slot="title">
               <i :class="iconsObj[item.id]"></i>
@@ -80,16 +110,12 @@ export default {
       // 是否折叠菜单
       isCollapse: false,
       // 侧栏激活状态
-      activePath: ''
+      activePath: '',
+      // 是否打开展开信息
+      isOpen: true
     };
   },
   methods: {
-    // 解决跳转到首页后，左侧菜单还处于激活状态
-    reload() {
-      window.sessionStorage.removeItem('activePath');
-      this.$router.push('/welcome');
-      window.location.reload();
-    },
     // 退出登录
     logout() {
       window.sessionStorage.clear('token');
@@ -105,11 +131,30 @@ export default {
     // 是否折叠收起菜单
     toggleMenu() {
       this.isCollapse = !this.isCollapse;
+      this.isOpen = !this.isOpen;
+      this.asideResize();
     },
     // 保存菜单栏激活状态
     saveNavState(activePath) {
       window.sessionStorage.setItem('activePath', activePath);
       this.activePath = activePath;
+    },
+    // 触发浏览器窗口的 resize 事件
+    // 解决 Echarts 的宽度不能随着父元素自动适应
+    asideResize() {
+      setTimeout(() => {
+        const myEvent = new Event('resize');
+        window.dispatchEvent(myEvent);
+      }, 500);
+    }
+  },
+  computed: {
+    // 计算展开信息
+    openInfo() {
+      if (this.isOpen) {
+        return '展开/收起';
+      }
+      return '';
     }
   },
   created() {
@@ -126,6 +171,10 @@ export default {
 .home-container {
   margin: 0 5%;
   height: 100%;
+
+  .el-backtop:hover {
+    background-color: #fff;
+  }
 }
 
 /**
@@ -182,13 +231,26 @@ export default {
   background-color: transparent;
   transition: all 0.8s;
 }
+
 // Menus 鼠标经过的样式
-.el-aside .el-submenu__title:hover,
-.el-aside .el-menu-item:hover {
-  color: #fec28e;
-  background-color: transparent;
-  transition: all 0.3s;
+.home-container {
+  .el-aside .el-submenu__title:hover,
+  .el-aside .el-menu-item:hover,
+  .el-menu-item:focus,
+  .el-menu-item:hover {
+    color: #fec28e;
+    background-color: transparent;
+    transition: all 0.3s;
+  }
+
+  // welcome 一级菜单单独的样式
+  .el-icon-s-shop {
+    margin-right: 0 !important;
+    margin-left: -4px !important;
+    padding-right: 6px;
+  }
 }
+
 // Menus 激活状态中的样式
 .el-aside .el-menu-item.is-active {
   color: #fec28e;
@@ -204,8 +266,9 @@ export default {
   align-items: center;
   justify-content: center;
   height: 20px;
-  background-color: #eee;
-  color: #303133;
+  font-size: 12px;
+  color: #d1d1d1;
+  background-color: #f9f9f9;
   cursor: pointer;
 }
 </style>
