@@ -120,3 +120,17 @@ html::-webkit-scrollbar {
   color: #72af79;
   border-color: #72af79;
 }
+
+/* 加载条样式 */
+#nprogress .bar {
+  background: #fec28e;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #fec28e, 0 0 5px #fec28e;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: #fec28e;
+  border-left-color: #fec28e;
+}
