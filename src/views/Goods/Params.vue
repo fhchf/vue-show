@@ -475,4 +475,9 @@ export default {
 .el-table .input-new-tag {
   width: 120px;
 }
+
+// tap 样式
+.params-container .el-tag {
+  margin-right: 10px;
+}
 </style>

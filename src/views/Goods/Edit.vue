@@ -219,7 +219,8 @@ export default {
       // 大图预览
       srcList: [],
       // 上传图片时的 URL 路径
-      uploadURL: 'http://127.0.0.1:8888/api/private/v1/upload',
+      // uploadURL: 'http://127.0.0.1:8888/api/private/v1/upload',
+      uploadURL: 'https://lianghj.top:8888/api/private/v1/upload',
       // 为上传图片设置请求头
       headersObj: {
         Authorization: window.sessionStorage.getItem('token')
@@ -391,6 +392,11 @@ export default {
 // 边距
 .edit-layout .el-tabs {
   margin-top: 15px;
+}
+
+// tab 样式
+.edit-layout .el-tag {
+  margin-right: 10px;
 }
 
 // 级联样式

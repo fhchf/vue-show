@@ -143,7 +143,7 @@ export default {
       addFormRules: {
         goods_name: [
           { required: true, message: '请输入商品名称', trigger: 'blur' },
-          { min: 2, max: 35, message: '名称长度在 2 到 35 个字符之间', trigger: 'blur' }
+          { min: 8, max: 35, message: '名称长度在 8 到 35 个字符之间', trigger: 'blur' }
         ],
         goods_price: [
           { required: true, message: '请输入商品价格', trigger: 'blur' },
@@ -185,7 +185,8 @@ export default {
       // 静态属性
       onlyTableData: [],
       // 上传图片的 URL 地址
-      uploadURL: 'http://127.0.0.1:8888/api/private/v1/upload',
+      // uploadURL: 'http://127.0.0.1:8888/api/private/v1/upload',
+      uploadURL: 'https://lianghj.top:8888/api/private/v1/upload',
       // 上传图片的 headers 请求头
       headersObj: {
         Authorization: window.sessionStorage.getItem('token')
@@ -301,7 +302,9 @@ export default {
         });
         form.attrs = this.addForm.attrs;
 
+        console.log(form);
         const { data: res } = await postGoodsAPI(form);
+        console.log(res);
         if (res.meta.status !== 201) return this.$message.error('添加失败！');
 
         this.$message.success('添加成功！');
