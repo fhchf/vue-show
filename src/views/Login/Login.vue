@@ -51,7 +51,7 @@
             >{{ formMsg }}</a
           >
           <el-form-item class="btns">
-            <el-button type="primary" @click="login">登录</el-button>
+            <el-button type="primary" @click="login" @keyup.enter.native="login">登录</el-button>
             <el-button type="info" @click="resetLoginForm">重置</el-button>
           </el-form-item>
         </el-form>
@@ -70,8 +70,8 @@ export default {
     return {
       // login 双向数据绑定
       loginForm: {
-        username: '',
-        password: ''
+        username: 'admin',
+        password: '123456'
       },
       // form 数据校验规则
       loginFormRules: {
