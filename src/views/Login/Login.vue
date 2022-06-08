@@ -71,7 +71,7 @@ export default {
       // login 双向数据绑定
       loginForm: {
         username: 'admin',
-        password: '123456'
+        password: ''
       },
       // form 数据校验规则
       loginFormRules: {
